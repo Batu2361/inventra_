@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- ── Correlation-ID MDC key (set by CorrelationIdFilter) ─────────────── -->
+    <property name="CORRELATION_ID_KEY" value="correlationId"/>
+
+    <!-- ── Structured JSON appender (production) ────────────────────────────── -->
+    <springProfile name="!dev">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+                <!-- Single-line JSON: ingestable by ELK / Loki / CloudWatch -->
+                <pattern>{"timestamp":"%d{yyyy-MM-dd'T'HH:mm:ss.SSSZ}","level":"%-5level","correlationId":"%X{${CORRELATION_ID_KEY}:-none}","logger":"%logger{36}","message":"%replace(%msg){'\"','\\\"'}","thread":"%thread"}%n</pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <!-- ── Human-readable appender (local dev) ──────────────────────────────── -->
+    <springProfile name="dev">
+        <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%cyan(%d{HH:mm:ss.SSS}) %highlight(%-5level) [%magenta(%X{${CORRELATION_ID_KEY}:-no-id})] %yellow(%logger{36}) - %msg%n</pattern>
+            </encoder>
+        </appender>
+    </springProfile>
+
+    <!-- ── Root log level ───────────────────────────────────────────────────── -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <!-- Per-package overrides -->
+    <logger name="com.inventra"          level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="org.hibernate.SQL"      level="WARN"/>
+    <logger name="org.flywaydb"           level="INFO"/>
+    <logger name="org.springframework.security" level="WARN"/>
+
+</configuration>

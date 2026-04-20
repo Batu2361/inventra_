@@ -1,0 +1,44 @@
+# ── Gradle ────────────────────────────────────────────────────────────────────
+build/
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.idea/
+*.iml
+*.iws
+.vscode/
+*.class
+
+# ── Secrets – never commit these ─────────────────────────────────────────────
+.env
+.env.*
+*.env.local
+application-local.yml
+application-secrets.yml
+
+# ── Frontend build artifacts ──────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/coverage/
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Test & coverage reports ───────────────────────────────────────────────────
+build/reports/
+build/test-results/
+
+# ── Docker volumes (if accidentally materialised locally) ─────────────────────
+pgadmin/pgadmin_data/
+postgres_data/
+
+# ── Local planning notes ──────────────────────────────────────────────────────
+.github/COMMIT_PLAN.md

@@ -1,0 +1,26 @@
+spring:
+  # Datasource is injected by @DynamicPropertySource in each integration test
+  jpa:
+    hibernate:
+      ddl-auto: validate   # Flyway owns the schema
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  flyway:
+    enabled: true          # always run migrations so schema matches entity
+
+  security:
+    jwt:
+      # Same default key as main config — fine for tests (never in production)
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration-ms: 3600000   # 1 h – enough for any test run
+
+logging:
+  level:
+    com.inventra: WARN
+    org.springframework.security: WARN
+    org.flywaydb: WARN
+    org.testcontainers: WARN
+    com.zaxxer.hikari: WARN

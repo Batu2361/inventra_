@@ -69,17 +69,22 @@ public class SecurityConfig {
     }
 
     /**
-     * CORS: allows specific origins (React dev server + deployed frontend).
-     * Origins are configurable via env-var in a real deployment.
+     * CORS: localhost for dev, plus any origins defined in ALLOWED_ORIGINS env-var.
+     * On Render set ALLOWED_ORIGINS=https://inventra-frontend.onrender.com
      */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of(
-            "http://localhost:3000",   // React dev
-            "http://localhost:4200",   // Angular dev
-            "https://inventra.dev"
+
+        List<String> origins = new java.util.ArrayList<>(List.of(
+            "http://localhost:3000",
+            "http://localhost:5173"
         ));
+        String extra = System.getenv("ALLOWED_ORIGINS");
+        if (extra != null && !extra.isBlank()) {
+            origins.addAll(List.of(extra.split(",")));
+        }
+        config.setAllowedOrigins(origins);
         config.setAllowedMethods(List.of("GET","POST","PUT","PATCH","DELETE","OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setExposedHeaders(List.of("X-Correlation-Id"));

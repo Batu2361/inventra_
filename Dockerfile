@@ -1,5 +1,5 @@
 # =============================================================================
-# StockFlow Pro – Multi-stage Dockerfile
+# Inventra – Multi-stage Dockerfile
 #
 # Stage 1: Build (full JDK + Gradle cache)
 # Stage 2: Runtime (minimal JRE image – ~180 MB vs ~600 MB full JDK)
@@ -28,8 +28,8 @@ RUN ./gradlew bootJar --no-daemon -x test
 FROM eclipse-temurin:21-jre-alpine AS runtime
 
 # Security: run as non-root
-RUN addgroup -S stockflow && adduser -S stockflow -G stockflow
-USER stockflow
+RUN addgroup -S inventra && adduser -S inventra -G inventra
+USER inventra
 
 WORKDIR /app
 

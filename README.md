@@ -310,18 +310,6 @@ Lagerdaten unterliegen in vielen Branchen Aufbewahrungspflichten. `@SQLRestricti
 
 ---
 
-### Wie das hier entstanden ist
-
-Angefangen hat das als Uni-Projekt in meinem dritten Semester. Damals: monolithisches Backend, kein richtiges Locking, Frontend irgendwie zusammengebaut. Hat funktioniert, war aber nichts, worauf ich stolz gewesen wäre.
-
-Nach dem Semester hab ich alles weggeworfen und von Null neu gebaut — diesmal mit der Frage im Kopf: Was würde ich bauen, wenn das ein echter Kunde nutzen soll? Nicht ein Unternehmen mit 500 SAP-Lizenzen, sondern ein Handwerksbetrieb mit drei Lagern, der wissen will, welches Produkt wo liegt und wann er nachbestellen muss.
-
-Das hat die Anforderungen komplett verschoben: kein Overhead, kein Admin-Dschungel — aber dafür echte Concurrency-Sicherheit, ein vernünftiges Rollenmodell und Daten, die nicht einfach verloren gehen.
-
-**Das Problem, das mich am längsten beschäftigt hat:**
-Beim ersten Entwurf hab ich eine Transaktion um die Buchungslogik gelegt und gedacht, das reicht. Im Lasttest haben dann fünf Threads gleichzeitig auf dasselbe Produkt gebucht — alle haben `currentStock = 50` gelesen, alle haben den Bestandscheck bestanden, alle haben abgebucht. Ergebnis: `-40` im Lager. Der Fix war `SELECT FOR UPDATE` direkt im Repository (`@Lock(PESSIMISTIC_WRITE)`). Damit wartet jeder Thread, bis der vorherige vollständig abgeschlossen hat, bevor er überhaupt liest.
-
----
 
 ## Lizenz
 

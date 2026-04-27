@@ -6,23 +6,23 @@
 # =============================================================================
 
 # ── Stage 1: Build ────────────────────────────────────────────────────────────
-FROM eclipse-temurin:21-jdk-alpine AS builder
+# Use the official Gradle image — Gradle is pre-installed, no download needed at build time
+FROM gradle:8.10-jdk21-alpine AS builder
 
 WORKDIR /workspace
 
 # Copy dependency descriptors first – leverage Docker layer cache.
-# Gradle wrapper + build files change rarely; source changes often.
-COPY gradle/          gradle/
-COPY gradlew          .
-COPY settings.gradle.kts .
-COPY build.gradle.kts .
+# Build files change rarely; source changes often.
+COPY --chown=gradle:gradle build.gradle.kts settings.gradle.kts ./
+COPY --chown=gradle:gradle gradle/ gradle/
+COPY --chown=gradle:gradle gradlew .
 
 # Pre-fetch dependencies (layer cached as long as build files don't change)
-RUN ./gradlew dependencies --no-daemon --quiet 2>/dev/null || true
+RUN gradle dependencies --no-daemon --quiet 2>/dev/null || true
 
 # Copy source and build
-COPY src/ src/
-RUN ./gradlew bootJar --no-daemon -x test
+COPY --chown=gradle:gradle src/ src/
+RUN gradle bootJar --no-daemon -x test
 
 # ── Stage 2: Runtime ──────────────────────────────────────────────────────────
 FROM eclipse-temurin:21-jre-alpine AS runtime

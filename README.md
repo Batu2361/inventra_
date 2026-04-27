@@ -16,6 +16,11 @@
 
 Inventra lets you track inventory across multiple warehouse locations. It started as a university project and was later rebuilt from scratch with a concrete use case in mind: a small business with multiple locations that needs to know what's in stock, where it is, and when to reorder.
 
+## Demo
+
+<!-- Upload Tutorialvideo.mov via the GitHub web editor to get a CDN link, then replace the line below -->
+https://github.com/user-attachments/assets/REPLACE_WITH_YOUR_VIDEO_LINK
+
 ## What it does
 
 - Track stock across **multiple warehouse locations**
@@ -27,7 +32,9 @@ Inventra lets you track inventory across multiple warehouse locations. It starte
 - **CSV export** of current stock
 - Full **audit trail** via Hibernate Envers
 
-## Getting started
+## Quick start
+
+**Prerequisites:** [Docker Desktop](https://www.docker.com/products/docker-desktop/) must be installed and running.
 
 ```bash
 git clone https://github.com/Batu2361/Inventra.git
@@ -35,34 +42,32 @@ cd Inventra
 docker compose up -d
 ```
 
-Wait ~60 seconds for the backend to finish starting, then open **http://localhost:3000**
+That's it. Wait ~60 seconds, then open **http://localhost:3000**
 
-| Service    | URL                                   | Login                      |
-|------------|---------------------------------------|----------------------------|
-| Frontend   | http://localhost:3000                 | see accounts below         |
-| Swagger UI | http://localhost:8080/swagger-ui.html | —                          |
-| Grafana    | http://localhost:3001                 | admin / admin              |
-| pgAdmin    | http://localhost:5050                 | admin@inventra.io / admin  |
-
-**Demo accounts**
+**Login with one of these accounts:**
 
 | Username  | Password      | Role              |
 |-----------|---------------|-------------------|
-| `admin`   | `Admin123!`   | Admin             |
+| `admin`   | `Admin123!`   | Full access       |
 | `manager` | `Manager123!` | Warehouse Manager |
-| `viewer`  | `Viewer123!`  | Viewer (read-only)|
+| `viewer`  | `Viewer123!`  | Read-only         |
+
+**Other services running locally:**
+
+| Service    | URL                                   |
+|------------|---------------------------------------|
+| Swagger UI | http://localhost:8080/swagger-ui.html |
+| Grafana    | http://localhost:3001 — admin / admin |
+| pgAdmin    | http://localhost:5050 — admin@inventra.io / admin |
 
 ## Running tests
 
 ```bash
-# Backend (requires docker compose to be running)
+# Start docker compose first, then:
 ./gradlew test
-
-# Frontend
-cd frontend && npm test
 ```
 
-92 tests total — 48 unit tests and 44 integration tests against a real PostgreSQL instance.
+92 tests — 48 unit tests and 44 integration tests against a real PostgreSQL instance.
 
 ## Stack
 

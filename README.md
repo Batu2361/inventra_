@@ -1,7 +1,3 @@
-
-
-https://github.com/user-attachments/assets/0f162dda-1492-4ac1-ba00-dc64914b9b67
-
 <div align="center">
 
 # Inventra
@@ -22,8 +18,7 @@ Inventra lets you track inventory across multiple warehouse locations. It starte
 
 ## Demo
 
-<!-- Upload Tutorialvideo.mov via the GitHub web editor to get a CDN link, then replace the line below -->
-https://github.com/user-attachments/assets/REPLACE_WITH_YOUR_VIDEO_LINK
+https://github.com/user-attachments/assets/0f162dda-1492-4ac1-ba00-dc64914b9b67
 
 ## What it does
 
